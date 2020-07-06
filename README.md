@@ -29,6 +29,8 @@ pip3 install -r requirements.txt
 python3 app.py
 ```
 
+浏览器打开 [http://127.0.0.1:8899](http://127.0.0.1:8899/)
+
 ## 截图
 
-![截图](https://i.imgur.com/qghUDEz.png)
+![截图](https://s1.ax1x.com/2020/07/06/UPR2IP.png)
