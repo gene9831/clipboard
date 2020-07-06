@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ClipBoard</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app">
+      <el-container>
+        <el-header><h1>剪切板</h1></el-header>
+        <el-main>
+          <el-row>
+            <el-tooltip content="复制" placement="top">
+              <el-button
+                type="primary"
+                icon="el-icon-copy-document"
+                circle
+                v-clipboard:copy="clipboard"
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onError"
+              ></el-button>
+            </el-tooltip>
+            <el-tooltip content="清空" placement="top">
+              <el-button type="danger" icon="el-icon-delete" circle @click="onDelete"></el-button>
+            </el-tooltip>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="23">
+              <el-input
+                type="textarea"
+                :autosize="{minRows:10}"
+                autofocus
+                placeholder="请输入内容"
+                v-model="clipboard"
+              ></el-input>
+            </el-col>
+          </el-row>
+        </el-main>
+      </el-container>
+    </div>
+  </body>
+
+  <style>
+    body {
+      margin-left: auto;
+      margin-right: auto;
+      width: 1140px;
+    }
+    .el-header {
+      background-color: #b3c0d1;
+      color: #333;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .el-main {
+      background-color: #e9eef3;
+      color: #333;
+      border-radius: 5px;
+    }
+    .icon {
+      font-size: 30px;
+      color: #606266;
+      margin: 0 5px 0 5px;
+    }
+    h1 {
+      line-height: 60px;
+      margin: auto;
+    }
+    .el-row {
+      margin-bottom: 10px;
+    }
+    .el-row:last-child {
+      margin-bottom: 0;
+    }
+    .message {
+      min-width: 100px;
+      height: 40px;
+    }
+  </style>
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <!-- Vue Clipboard -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue-clipboard2/0.3.1/vue-clipboard.min.js"></script>
+  <!-- element-ui -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js"></script>
+  <!-- axios -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script>
+    Vue.use(VueClipboard);
+    new Vue({
+      el: "#app",
+      data: function () {
+        return {
+          clipboard: "",
+        };
+      },
+      mounted() {
+        this.getClipboard();
+      },
+      watch: {
+        clipboard: function () {
+          this.putClipboard();
+        },
+      },
+      methods: {
+        onDelete() {
+          this.clipboard = "";
+        },
+        onCopy() {
+          this.$message({
+            message: "复制成功",
+            type: "success",
+            center: true,
+            duration: 2000,
+            customClass: "message",
+          });
+        },
+        onError() {
+          this.$message({
+            message: "复制失败",
+            type: "error",
+            center: true,
+            duration: 2000,
+            customClass: "message",
+          });
+        },
+        putClipboard() {
+          let data = new FormData();
+          data.append("data", this.clipboard);
+          axios
+            .put("/api/clipboard", data)
+            .then((response) => {
+              // console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+        getClipboard() {
+          axios
+            .get("/api/clipboard")
+            .then((response) => {
+              this.clipboard = response.data.clipboard;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+      },
+    });
+  </script>
+</html>
