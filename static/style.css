@@ -1,0 +1,42 @@
+body {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1140px;
+}
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+  border-radius: 5px;
+}
+.icon {
+  font-size: 30px;
+  color: #606266;
+  margin: 0 5px 0 5px;
+}
+h1 {
+  line-height: 60px;
+  margin: auto;
+}
+.el-row {
+  margin-bottom: 10px;
+}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+.message {
+  min-width: 250px;
+  height: 40px;
+}
+.copy-message {
+  min-width: 100px;
+  height: 40px;
+}
+.button-disable:hover {
+  cursor: default;
+}
